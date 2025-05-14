@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/api-gateway/src",
+  "compilerOptions": {
+    "builder": "swc",
+    "typeCheck": true,
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/api-gateway/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/api-gateway",
+  "projects": {
+    "api-gateway": {
+      "type": "application",
+      "root": "apps/api-gateway",
+      "entryFile": "main",
+      "sourceRoot": "apps/api-gateway/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/api-gateway/tsconfig.app.json"
+      }
+    },
+    "battle-service": {
+      "type": "application",
+      "root": "apps/battle-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/battle-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/battle-service/tsconfig.app.json"
+      }
+    },
+    "player-service": {
+      "type": "application",
+      "root": "apps/player-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/player-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/player-service/tsconfig.app.json"
+      }
+    },
+    "shared": {
+      "type": "library",
+      "root": "libs/shared",
+      "entryFile": "index",
+      "sourceRoot": "libs/shared/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/shared/tsconfig.lib.json"
+      }
+    }
+  }
+}

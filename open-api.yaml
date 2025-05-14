@@ -1,0 +1,133 @@
+openapi: 3.0.0
+paths:
+  /api/v1/players:
+    get:
+      description: This endpoint returns a hello message from the player service.
+      operationId: PlayersController_getHello_v1
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      summary: Get Hello from Player Service
+      tags: &a1
+        - Players
+    post:
+      description: This endpoint creates a new player.
+      operationId: PlayersController_create_v1
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreatePlayerDto"
+      responses:
+        "201":
+          description: The player has been successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreatePlayerResponseDto"
+        "500":
+          description: Internal server error
+      summary: Create a new player
+      tags: *a1
+  /api/v1/battles:
+    get:
+      description: This endpoint returns a hello message from the player service.
+      operationId: BattlesController_getHello_v1
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      summary: Get Hello from Player Service
+      tags: &a2
+        - Battles
+    post:
+      description: This endpoint creates a new battle between two players.
+      operationId: BattlesController_create_v1
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateBattleDto"
+      responses:
+        "201":
+          description: The player has been successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateBattleResponseDto"
+        "500":
+          description: Internal server error
+      summary: Create a new battle
+      tags: *a2
+info:
+  title: Scopely challenge
+  description: Challenge
+  version: "1.0"
+  contact: {}
+tags: []
+servers:
+  - url: http://localhost:8080
+components:
+  securitySchemes:
+    access-token:
+      scheme: Bearer
+      bearerFormat: Bearer
+      type: http
+      name: JWT
+      description: Enter JWT token
+      in: header
+  schemas:
+    CreatePlayerDto:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        gold:
+          type: number
+        silver:
+          type: number
+        hit:
+          type: number
+        defense:
+          type: number
+        attack:
+          type: number
+      required:
+        - name
+        - description
+        - gold
+        - silver
+        - hit
+        - defense
+        - attack
+    CreatePlayerResponseDto:
+      type: object
+      properties:
+        identifier:
+          type: string
+      required:
+        - identifier
+    CreateBattleDto:
+      type: object
+      properties:
+        player1:
+          type: string
+        player2:
+          type: string
+      required:
+        - player1
+        - player2
+    CreateBattleResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+        - id
