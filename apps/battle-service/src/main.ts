@@ -18,9 +18,8 @@ async function bootstrap() {
   const configService = app.get<ConfigService<EnvironmentVariables>>(
     ConfigService<EnvironmentVariables>,
   );
-
-  //setup microservice RabbitMQ
-  const amqpUrl = `amqp://${configService.get('rabbitmq.user', { infer: true})}:${configService.get('rabbitmq.password', { infer: true})}@${configService.get('rabbitmq.host', { infer: true})}:${configService.get('rabbitmq.port', { infer: true})}`;
+  //setup microservice RabbitMQ creating the queue
+  /*const amqpUrl = `amqp://${configService.get('rabbitmq.user', { infer: true})}:${configService.get('rabbitmq.password', { infer: true})}@${configService.get('rabbitmq.host', { infer: true})}:${configService.get('rabbitmq.port', { infer: true})}`;
   app.connectMicroservice<RmqOptions>({
     transport: Transport.RMQ,
     options: {
@@ -33,7 +32,7 @@ async function bootstrap() {
     },
   },
   { inheritAppConfig: true },
-  );
+  );*/
 
   const port = +configService.get('port');
   const battlePort = configService.get('battle.port', { infer: true });

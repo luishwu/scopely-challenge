@@ -1,15 +1,19 @@
 import * as ormconfig from './ormconfig';
 
+import { ClientsModule, Transport } from '@nestjs/microservices';
+
 import { BattleDao } from './infrastructure/typeorm/battle.dao';
 import { BattleRepository } from './application/battles.repository';
 import { BattleServiceController } from './battle-service.controller';
 import { BattleServiceService } from './battle-service.service';
 import { BattleTypeOrmRepository } from './infrastructure/typeorm/battle-typeorm-options';
+import { BrokerQueues } from '@app/shared/core/constants/broker/broker-queues';
 import { EnvModule } from 'apps/battle-service/src/config/env.module';
 import { Module } from '@nestjs/common';
 import { SharedModule } from '@app/shared';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+//URL `'amqp://${process.env.RABBITMQ_USER}:${process.env.RABBITMQ_PASSWORD}@${process.env.RABBITMQ_HOST}:${process.env.RABBITMQ_PORT}'`
 @Module({
   imports: [
     EnvModule,
@@ -19,6 +23,19 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     }),
     TypeOrmModule.forFeature([BattleDao]),
     SharedModule,
+    ClientsModule.register([
+      {
+        name: BrokerQueues.BATTLE_SERVICE_QUEUE,
+        transport: Transport.RMQ, // Explicitly set to Transport.RMQ
+        options: {
+          urls: ['amqp://admin:admin@localhost:5672'],
+          queue: BrokerQueues.BATTLE_QUEUE_NAME,
+          queueOptions: {
+            durable: true,
+          },
+        },
+      },
+    ]), // 1 = Transport.RMQ
   ],
   controllers: [ BattleServiceController],
   providers: [
