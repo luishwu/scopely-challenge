@@ -30,6 +30,15 @@
         "tsConfigPath": "apps/battle-service/tsconfig.app.json"
       }
     },
+    "battle-worker-service": {
+      "type": "application",
+      "root": "apps/battle-worker-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/battle-worker-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/battle-worker-service/tsconfig.app.json"
+      }
+    },
     "player-service": {
       "type": "application",
       "root": "apps/player-service",
