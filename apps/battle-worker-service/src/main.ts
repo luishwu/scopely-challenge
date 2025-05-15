@@ -28,12 +28,12 @@ async function bootstrap() {
     {
       transport: Transport.RMQ,
       options: {
-         urls: ['amqp://admin:admin@localhost:5672'],
+        urls: ['amqp://admin:admin@localhost:5672'],
         queue: BrokerQueues.BATTLE_QUEUE_NAME,
         queueOptions: {
           durable: true,
         },
-    },
+      },
     },
     { inheritAppConfig: true },
   );
