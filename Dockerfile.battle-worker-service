@@ -1,0 +1,36 @@
+ARG NODE_ALPINE_VERSION=24.0.1-alpine
+ARG PORT
+
+FROM node:${NODE_ALPINE_VERSION} AS builder
+
+WORKDIR /usr/src/battle-worker-service
+
+COPY package*.json ./
+
+RUN npm install --save-dev @nestjs/cli
+
+RUN npm install
+
+COPY . ./
+
+RUN npm run build shared
+
+RUN npm run build battle-worker-service
+
+FROM node:${NODE_ALPINE_VERSION} AS production
+
+WORKDIR /home/node/battle-worker-service
+
+RUN chown node:node /home/node/battle-worker-service
+
+ENV TZ=Europe/Madrid
+
+USER node
+
+COPY --from=builder --chown=node:node /usr/src/battle-worker-service/package*.json /home/node/battle-worker-service/
+COPY --from=builder --chown=node:node /usr/src/battle-worker-service/node_modules /home/node/battle-worker-service/node_modules
+COPY --from=builder --chown=node:node /usr/src/battle-worker-service/dist /home/node/battle-worker-service/dist
+
+EXPOSE $PORT
+
+ENTRYPOINT ["node", "dist/apps/battle-worker-service/main"]

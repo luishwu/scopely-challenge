@@ -6,4 +6,10 @@ export interface EnvironmentVariables {
     host: string;
     port: number;
   };
+  rabbitmq: {
+    host: string;
+    port: number;
+    user: string;
+    password: string; 
+  };
 }

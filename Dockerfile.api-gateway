@@ -1,0 +1,36 @@
+ARG NODE_ALPINE_VERSION=24.0.1-alpine
+ARG PORT
+
+FROM node:${NODE_ALPINE_VERSION} AS builder
+
+WORKDIR /usr/src/api-gateway
+
+COPY package*.json ./
+
+RUN npm install --save-dev @nestjs/cli
+
+RUN npm install
+
+COPY . ./
+
+RUN npm run build shared
+
+RUN npm run build api-gateway
+
+FROM node:${NODE_ALPINE_VERSION} AS production
+
+WORKDIR /home/node/api-gateway
+
+RUN chown node:node /home/node/api-gateway
+
+ENV TZ=Europe/Madrid
+
+USER node
+
+COPY --from=builder --chown=node:node /usr/src/api-gateway/package*.json /home/node/api-gateway/
+COPY --from=builder --chown=node:node /usr/src/api-gateway/node_modules /home/node/api-gateway/node_modules
+COPY --from=builder --chown=node:node /usr/src/api-gateway/dist /home/node/api-gateway/dist
+
+EXPOSE $PORT
+
+ENTRYPOINT ["node", "dist/apps/api-gateway/main"]

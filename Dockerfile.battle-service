@@ -1,0 +1,36 @@
+ARG NODE_ALPINE_VERSION=24.0.1-alpine
+ARG PORT
+
+FROM node:${NODE_ALPINE_VERSION} AS builder
+
+WORKDIR /usr/src/battle-service
+
+COPY package*.json ./
+
+RUN npm install --save-dev @nestjs/cli
+
+RUN npm install
+
+COPY . ./
+
+RUN npm run build shared
+
+RUN npm run build battle-service
+
+FROM node:${NODE_ALPINE_VERSION} AS production
+
+WORKDIR /home/node/battle-service
+
+RUN chown node:node /home/node/battle-service
+
+ENV TZ=Europe/Madrid
+
+USER node
+
+COPY --from=builder --chown=node:node /usr/src/battle-service/package*.json /home/node/battle-service/
+COPY --from=builder --chown=node:node /usr/src/battle-service/node_modules /home/node/battle-service/node_modules
+COPY --from=builder --chown=node:node /usr/src/battle-service/dist /home/node/battle-service/dist
+
+EXPOSE $PORT
+
+ENTRYPOINT ["node", "dist/apps/battle-service/main"]

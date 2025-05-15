@@ -1,0 +1,36 @@
+ARG NODE_ALPINE_VERSION=24.0.1-alpine
+ARG PORT
+
+FROM node:${NODE_ALPINE_VERSION} AS builder
+
+WORKDIR /usr/src/player-service
+
+COPY package*.json ./
+
+RUN npm install --save-dev @nestjs/cli
+
+RUN npm install
+
+COPY . ./
+
+RUN npm run build shared
+
+RUN npm run build player-service
+
+FROM node:${NODE_ALPINE_VERSION} AS production
+
+WORKDIR /home/node/player-service
+
+RUN chown node:node /home/node/player-service
+
+ENV TZ=Europe/Madrid
+
+USER node
+
+COPY --from=builder --chown=node:node /usr/src/player-service/package*.json /home/node/player-service/
+COPY --from=builder --chown=node:node /usr/src/player-service/node_modules /home/node/player-service/node_modules
+COPY --from=builder --chown=node:node /usr/src/player-service/dist /home/node/player-service/dist
+
+EXPOSE $PORT
+
+ENTRYPOINT ["node", "dist/apps/player-service/main"]

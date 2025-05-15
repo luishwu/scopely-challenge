@@ -8,7 +8,9 @@ import { BattleServiceController } from './battle-service.controller';
 import { BattleServiceService } from './battle-service.service';
 import { BattleTypeOrmRepository } from './infrastructure/typeorm/battle-typeorm-options';
 import { BrokerQueues } from '@app/shared/core/constants/broker/broker-queues';
+import { ConfigService } from '@nestjs/config';
 import { EnvModule } from 'apps/battle-service/src/config/env.module';
+import { EnvironmentVariables } from './config/env.variables';
 import { Module } from '@nestjs/common';
 import { SharedModule } from '@app/shared';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -23,17 +25,20 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     }),
     TypeOrmModule.forFeature([BattleDao]),
     SharedModule,
-    ClientsModule.register([
+    ClientsModule.registerAsync([
       {
         name: BrokerQueues.BATTLE_SERVICE_QUEUE,
-        transport: Transport.RMQ, // Explicitly set to Transport.RMQ
-        options: {
-          urls: ['amqp://admin:admin@localhost:5672'],
-          queue: BrokerQueues.BATTLE_QUEUE_NAME,
-          queueOptions: {
-            durable: true,
+        inject: [ConfigService],
+        useFactory: async (configService: ConfigService<EnvironmentVariables>) => ({
+          transport: Transport.RMQ, // Explicitly set to Transport.RMQ
+          options: {
+            urls: [`amqp://${configService.get('rabbitmq.user', { infer: true})}:${configService.get('rabbitmq.password', { infer: true})}@${configService.get('rabbitmq.host', { infer: true})}:${configService.get('rabbitmq.port', { infer: true})}`],
+            queue: BrokerQueues.BATTLE_QUEUE_NAME,
+            queueOptions: {
+              durable: true,
+            },
           },
-        },
+        }),
       },
     ]), // 1 = Transport.RMQ
   ],

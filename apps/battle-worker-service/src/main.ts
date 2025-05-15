@@ -23,12 +23,14 @@ async function bootstrap() {
   const port = +configService.get('port');
   // const battleWorkerPort = configService.get('battleworker.port', { infer: true });
   // const battleWorkerHost = configService.get('battleworker.host', { infer: true });
+  const amqpUrl = `amqp://${configService.get('rabbitmq.user', { infer: true})}:${configService.get('rabbitmq.password', { infer: true})}@${configService.get('rabbitmq.host', { infer: true})}:${configService.get('rabbitmq.port', { infer: true})}`;
 
+  console.log('amqpUrl', amqpUrl);
   app.connectMicroservice<MicroserviceOptions>(
     {
       transport: Transport.RMQ,
       options: {
-        urls: ['amqp://admin:admin@localhost:5672'],
+        urls: [amqpUrl],
         queue: BrokerQueues.BATTLE_QUEUE_NAME,
         queueOptions: {
           durable: true,
