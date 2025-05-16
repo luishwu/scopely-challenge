@@ -27,40 +27,7 @@
 
 ## Project setup
 
-```bash
-$ npm install
-```
-
-## Compile and run the project
-
-```bash
-# API Gateway
-$ npm run start:dev
-
-#Player microservice
-$ npm run start:dev player-service
-
-#Battle microservice
-$ npm run start:dev battle-service
-
-#Battle Worker Service microservice
-$ npm run start:dev battle-worker-service
-
-
-```
-
-## Run tests (Not defined)
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
+In order to start running this project you will need the infrastructure project. Find it here: https://github.com/luishwu/scopely-challenge-infra
 
 ## Documentation
 

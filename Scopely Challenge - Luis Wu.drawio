@@ -208,7 +208,7 @@
         <mxCell id="tanbpcivgipz40syzjLG-35" value="API Gateway" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="120" y="-759.94" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="tanbpcivgipz40syzjLG-36" value="api key validation" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" parent="1" source="tanbpcivgipz40syzjLG-35" target="tanbpcivgipz40syzjLG-35" edge="1">
+        <mxCell id="tanbpcivgipz40syzjLG-36" value="&lt;span style=&quot;font-size: 12px; text-align: left; text-wrap-mode: wrap; background-color: rgb(236, 236, 236);&quot;&gt;Authentication&amp;nbsp;&lt;/span&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" parent="1" source="tanbpcivgipz40syzjLG-35" target="tanbpcivgipz40syzjLG-35" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="150" y="-789.94" />
@@ -453,7 +453,7 @@
         <mxCell id="D4frwBzJHoWnWInupwH9-53" value="in_battle" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="D4frwBzJHoWnWInupwH9-51" vertex="1">
           <mxGeometry y="60" width="160" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="D4frwBzJHoWnWInupwH9-55" value="Authentication systems exists but for simplicity only checking at request level is done using API key. In real system a solution could consist on a bearer token added to any request in order to validate the User" style="text;strokeColor=#9673a6;fillColor=#e1d5e7;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="D4frwBzJHoWnWInupwH9-55" value="Authentication systems exists but for simplicity not implemented. In real system a solution could consist on a bearer token added to any request in order to validate the User" style="text;strokeColor=#9673a6;fillColor=#e1d5e7;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="40" y="319" width="880" height="30" as="geometry" />
         </mxCell>
         <mxCell id="D4frwBzJHoWnWInupwH9-56" value="Rate limit security could be added at API Gateway level but for is not manage for simplicity of the solution as well as other security consideration strategies, honey pot, etc." style="text;strokeColor=#9673a6;fillColor=#e1d5e7;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
